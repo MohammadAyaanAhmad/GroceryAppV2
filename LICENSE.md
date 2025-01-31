@@ -10,6 +10,6 @@ Panav Gupta
 
 CBSE
 
-Appejay School, Noida
+Apeejay School, Noida
 
 Violating the terms of this lisence may result in legal action. Anything caused by the use or misuse of this software and code is not the authors' responsibility.
