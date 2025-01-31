@@ -270,7 +270,25 @@ def delivScreen():
     text("ZIP Code: ",x__,630,'black',anchor=tk.W)
     zip_ = numEntry( borderwidth=2,bg = 'white', fg = 'black',width=25,font='Consolas 20')
     zipWindow = canvas.create_window(x__,650,  window=zip_,anchor=tk.NW)
- 
+    def generateBill():
+        f = open('details.txt','rb')
+        info = pickle.load(f)
+        f.close()
+        srn = 1
+        for name, qty in user_selections.items():
+            price = info[name][1]
+            t_price = price*qty
+            SQL = "INSERT INTO BillInfo VALUES( {} , '{}' , {} , {} , {} );".format( str(srn), name, str(qty), str(price), str(t_price) )
+            cur.execute(SQL)
+            con.commit()
+            srn += 1
+            info[name][0] = info[name][0] - qty
+            if info[name][0]<20:
+                info[name][2] = 'Low Stock, Resupply'
+            else:
+                info[name][2] = 'Sufficient Stock'
+            f = open('details.txt','wb')
+            pickle.dump(info,f)
             f.close()
             billScreen()
     confirmPurchase = button("Confirm Purchase", (w/1920)*840, 750, 30, 300, generateBill,col ="Black", bg_col= 'White')
